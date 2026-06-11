@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.className+=' js';</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChainSEC 2027 — Workshop on Software Supply Chain Security · ICSE 2027</title>
+<meta name="description" content="ChainSEC 2027: a discussion-oriented workshop on software supply chain security, co-located with ICSE 2027 in Dublin, Ireland. Provenance, SBOMs, integrity, reproducibility, and the supply chain of AI systems.">
+<meta property="og:title" content="ChainSEC 2027 — Workshop on Software Supply Chain Security">
+<meta property="og:description" content="A discussion-oriented workshop on software supply chain security, co-located with ICSE 2027, Dublin, Ireland.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230C1322'/%3E%3Cg fill='none' stroke='%23E0A33E' stroke-width='2.4'%3E%3Crect x='6' y='11' width='13' height='10' rx='5'/%3E%3Crect x='13' y='11' width='13' height='10' rx='5' stroke='%23E7EAF0'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='2.1' fill='%23E0A33E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0C1322;
+    --ink-2:#0F1828;
+    --ink-card:#15213650;
+    --ink-line:#243049;
+    --paper:#F4F6F8;
+    --paper-2:#FFFFFF;
+    --graphite:#16202F;
+    --text:#1B2433;
+    --muted:#5A6573;
+    --muted-2:#8A93A1;
+    --gold:#E0A33E;
+    --gold-deep:#C0851F;
+    --gold-soft:#F4E4C4;
+    --teal:#3FB5A6;
+    --line:#E2E6EC;
+    --line-soft:#EDEFF3;
+    --radius:14px;
+    --radius-lg:20px;
+    --shadow:0 1px 2px rgba(16,28,48,.04),0 10px 30px -18px rgba(16,28,48,.28);
+    --shadow-lg:0 2px 6px rgba(16,28,48,.05),0 28px 60px -30px rgba(16,28,48,.40);
+    --maxw:1120px;
+    --ease:cubic-bezier(.2,.7,.2,1);
+    --disp:"Space Grotesk",sans-serif;
+    --body:"IBM Plex Sans",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--text);
+    font-family:var(--body);font-size:17px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{font-family:var(--disp);margin:0;line-height:1.08;letter-spacing:-.01em;color:var(--graphite)}
+  p{margin:0 0 1rem}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono)}
+
+  /* eyebrow / structural label */
+  .eyebrow{
+    font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold-deep);display:inline-flex;align-items:center;gap:.6em;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold);opacity:.7}
+  .on-dark .eyebrow{color:var(--gold)}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky;top:0;z-index:60;background:rgba(12,19,34,.82);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid #1b2740;
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;gap:18px}
+  .brand{display:flex;align-items:center;gap:11px;color:#EAEEF5}
+  .brand svg{display:block}
+  .brand b{font-family:var(--disp);font-weight:600;font-size:1.12rem;letter-spacing:-.01em}
+  .brand b i{font-style:normal;color:var(--gold)}
+  .navlinks{display:flex;align-items:center;gap:4px}
+  .navlinks a{
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:#A9B4C6;
+    padding:9px 14px;border-radius:9px;transition:color .2s var(--ease),background .2s var(--ease);
+  }
+  .navlinks a:hover{color:#fff;background:#ffffff10}
+  .navlinks a.active{color:var(--ink);background:var(--gold)}
+  .nav-cta{
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.03em;color:var(--ink);background:#EAEEF5;
+    padding:9px 15px;border-radius:9px;font-weight:500;transition:transform .2s var(--ease),background .2s var(--ease);
+  }
+  .nav-cta:hover{background:#fff;transform:translateY(-1px)}
+  .burger{display:none;background:none;border:0;cursor:pointer;padding:8px;color:#EAEEF5}
+  .burger svg{display:block}
+
+  /* ---------- PANELS ---------- */
+  .panel{display:none;animation:fade .45s var(--ease)}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;background:var(--ink);color:#EAEEF5;overflow:hidden;isolation:isolate}
+  #graph{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .hero::after{ /* readability vignette */
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 38%,transparent 0,transparent 38%,rgba(12,19,34,.55) 72%,rgba(12,19,34,.92) 100%);
+  }
+  .hero-inner{position:relative;z-index:2;text-align:center;padding:104px 28px 96px;max-width:880px;margin:0 auto}
+  .heromark{margin:0 auto 26px;width:96px;height:96px;filter:drop-shadow(0 12px 30px rgba(0,0,0,.45))}
+  .wordmark{font-family:var(--disp);font-weight:700;letter-spacing:-.03em;line-height:.92;
+    font-size:clamp(3.1rem,9vw,6rem);color:#F2F5FA}
+  .wordmark i{font-style:normal;color:var(--gold)}
+  .hero-title{font-family:var(--body);font-weight:500;color:#C7D0DE;
+    font-size:clamp(1.02rem,2.4vw,1.32rem);letter-spacing:.01em;margin:20px auto 0;max-width:30ch}
+  .hero-meta{margin-top:30px;display:inline-flex;flex-wrap:wrap;justify-content:center;gap:10px 14px;
+    font-family:var(--mono);font-size:.82rem;letter-spacing:.02em;color:#AEB9CB}
+  .hero-meta span{display:inline-flex;align-items:center;gap:9px}
+  .hero-meta .dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+  .hero-cta{margin-top:38px;display:flex;flex-wrap:wrap;gap:13px;justify-content:center}
+  .btn{font-family:var(--mono);font-size:.82rem;letter-spacing:.02em;padding:13px 22px;border-radius:11px;
+    font-weight:500;transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);cursor:pointer;border:1px solid transparent}
+  .btn-gold{background:var(--gold);color:#231805;box-shadow:0 14px 34px -16px rgba(224,163,62,.8)}
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 20px 40px -16px rgba(224,163,62,.9)}
+  .btn-ghost{background:transparent;color:#E6EBF2;border-color:#3a4a68}
+  .btn-ghost:hover{border-color:var(--gold);color:#fff;transform:translateY(-2px)}
+
+  /* ---------- SECTIONS (light) ---------- */
+  .section{padding:84px 0}
+  .section-tight{padding:58px 0}
+  .section-head{max-width:62ch;margin:0 0 38px}
+  .section-head h2{font-size:clamp(1.7rem,3vw,2.5rem);margin:14px 0 0}
+  .section-head p{color:var(--muted);margin-top:14px;font-size:1.05rem}
+  .alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+  /* chain divider */
+  .chaindiv{display:flex;align-items:center;gap:0;height:1px;background:linear-gradient(90deg,transparent,var(--line) 12%,var(--line) 88%,transparent);position:relative;margin:0}
+  .chaindiv::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--paper)}
+
+  /* ---------- HOME: about + news ---------- */
+  .home-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:24px;align-items:start}
+  .box{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
+  .box-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 24px;border-bottom:1px solid var(--line-soft)}
+  .box-head .eyebrow{color:var(--gold-deep)}
+  .box-body{padding:24px 26px 28px}
+  .box-body p:last-child{margin-bottom:0}
+  .lead{font-size:1.12rem;line-height:1.6;color:var(--text)}
+  .goals{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:14px}
+  .goals li{position:relative;padding-left:30px;color:var(--muted);font-size:.98rem;line-height:1.55}
+  .goals li b{color:var(--graphite);font-weight:600}
+  .goals li::before{content:"";position:absolute;left:0;top:7px;width:13px;height:13px;border-radius:4px;border:2px solid var(--gold);background:var(--gold-soft)}
+
+  /* news */
+  .news{display:flex;flex-direction:column}
+  .news-item{padding:17px 24px;border-bottom:1px solid var(--line-soft);transition:background .2s var(--ease)}
+  .news-item:last-child{border-bottom:0}
+  .news-item:hover{background:#fbfbfc}
+  .news-date{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:var(--gold-deep);text-transform:uppercase}
+  .news-item p{margin:5px 0 0;font-size:.95rem;line-height:1.5;color:var(--text)}
+  .news-item a.inline{color:var(--gold-deep);border-bottom:1px solid #e6cf9e;font-weight:500}
+  .news-item a.inline:hover{border-bottom-color:var(--gold-deep)}
+
+  /* key dates strip */
+  .dates-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .date-card{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;position:relative;box-shadow:var(--shadow)}
+  .date-card .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+  .date-card .v{font-family:var(--disp);font-weight:600;font-size:1.32rem;color:var(--graphite);margin-top:9px;line-height:1.1}
+  .date-card.hot{border-color:var(--gold);background:linear-gradient(180deg,#fffdf8,#fff)}
+  .date-card.hot::before{content:"DEADLINE";position:absolute;top:-9px;left:20px;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;background:var(--gold);color:#231805;padding:3px 8px;border-radius:5px;font-weight:500}
+
+  /* at-a-glance / format cards */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .feature{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px 26px;box-shadow:var(--shadow);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+  .feature:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .feature .ico{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;background:var(--ink);margin-bottom:18px}
+  .feature h3{font-size:1.18rem}
+  .feature p{color:var(--muted);font-size:.97rem;margin:9px 0 0}
+
+  /* topic chips */
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{font-family:var(--mono);font-size:.78rem;letter-spacing:.01em;color:var(--text);background:var(--paper-2);
+    border:1px solid var(--line);border-radius:999px;padding:8px 15px;transition:border-color .2s,color .2s,background .2s}
+  .chip:hover{border-color:var(--gold);color:var(--gold-deep);background:#fffdf8}
+
+  /* ---------- CFP ---------- */
+  .twocol{display:grid;grid-template-columns:1.3fr 1fr;gap:34px;align-items:start}
+  .tracks{display:grid;gap:16px}
+  .track{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;background:var(--paper-2);
+    border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow)}
+  .track .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--ink);color:#EAEEF5;padding:6px 9px;border-radius:7px;white-space:nowrap;align-self:start;margin-top:3px}
+  .track.primary .tag{background:var(--gold);color:#231805}
+  .track h3{font-size:1.12rem}
+  .track p{margin:5px 0 0;color:var(--muted);font-size:.95rem}
+  .policy{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+  .policy li{padding-left:0}
+  .policy h4{font-family:var(--disp);font-size:1rem;color:var(--graphite);display:flex;align-items:center;gap:9px}
+  .policy h4::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--gold)}
+  .policy p{margin:5px 0 0 17px;color:var(--muted);font-size:.93rem}
+  .callout{background:var(--ink);color:#D9E0EC;border-radius:var(--radius-lg);padding:30px 30px;box-shadow:var(--shadow-lg)}
+  .callout .eyebrow{color:var(--gold)}
+  .callout h3{color:#F2F5FA;font-size:1.3rem;margin:12px 0 8px}
+  .callout p{color:#AEB9CB;font-size:.96rem}
+  .callout .btn-gold{margin-top:8px;display:inline-block}
+  .callout .meta-line{font-family:var(--mono);font-size:.78rem;color:#8C97AB;margin-top:18px;border-top:1px solid #243049;padding-top:16px}
+
+  /* CFP — traditional single-column document */
+  .cfp-doc{max-width:760px;margin:0 auto}
+  .cfp-block{padding:40px 0 0;margin-top:40px;border-top:1px solid var(--line-soft);position:relative}
+  .cfp-block::before{content:"";position:absolute;top:-1px;left:0;width:44px;height:2px;background:var(--gold)}
+  .cfp-block:first-child{padding-top:0;margin-top:0;border-top:0}
+  .cfp-block:first-child::before{display:none}
+  .cfp-block .section-head{margin-bottom:22px}
+  .cfp-list{list-style:none;margin:0;padding:0;display:grid;gap:22px}
+  .cfp-list>li>h4{font-family:var(--disp);font-size:1.1rem;color:var(--graphite);display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .cfp-list>li>p{margin:6px 0 0;color:var(--muted);font-size:.96rem}
+  .cfp-pages{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-deep);background:#fffdf8;border:1px solid #ecdcb4;border-radius:6px;padding:3px 9px;font-weight:500}
+  .cfp-dates{list-style:none;margin:0;padding:0;display:grid;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--paper-2);box-shadow:var(--shadow)}
+  .cfp-dates li{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 22px;border-bottom:1px solid var(--line-soft)}
+  .cfp-dates li:last-child{border-bottom:0}
+  .cfp-dates li:first-child{background:linear-gradient(180deg,#fffdf8,#fff)}
+  .cfp-dates li span{color:var(--text);font-size:.98rem}
+  .cfp-dates li b{font-size:.92rem;color:var(--graphite)}
+  .cfp-dates li:first-child b{color:var(--gold-deep)}
+  .cfp-topics{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  .cfp-topics li{position:relative;padding-left:24px;color:var(--text);font-size:.98rem;line-height:1.55}
+  .cfp-topics li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--gold)}
+  .cfp-after{margin-top:18px;color:var(--muted);font-size:.96rem}
+  .cfp-meta{margin-top:16px;font-family:var(--mono);font-size:.82rem;color:var(--muted);line-height:1.7}
+  .cfp-meta b{color:var(--graphite);font-weight:500}
+  .cfp-meta a{color:var(--gold-deep);border-bottom:1px solid #e6cf9e}
+  .cfp-meta a:hover{border-bottom-color:var(--gold-deep)}
+
+  /* ---------- PROGRAM ---------- */
+  .agenda{display:grid;gap:0;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--paper-2);box-shadow:var(--shadow)}
+  .slot{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:22px 26px;border-bottom:1px solid var(--line-soft);align-items:start}
+  .slot:last-child{border-bottom:0}
+  .slot:hover{background:#fbfbfc}
+  .slot .when{font-family:var(--mono);font-size:.82rem;color:var(--gold-deep);letter-spacing:.02em;padding-top:2px}
+  .slot .what h3{font-size:1.1rem}
+  .slot .what p{margin:5px 0 0;color:var(--muted);font-size:.94rem}
+  .slot .kind{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);display:inline-block;margin-bottom:6px}
+  .slot.keynote{background:linear-gradient(90deg,#fffdf8,transparent)}
+  .slot.keynote .when{color:var(--gold-deep)}
+  .tba{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:.78rem;color:var(--muted);
+    background:var(--paper-2);border:1px dashed var(--line);border-radius:999px;padding:9px 17px}
+  .tba .pulse{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(224,163,62,.6);animation:ping 2s infinite}
+  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(224,163,62,.55)}70%{box-shadow:0 0 0 9px rgba(224,163,62,0)}100%{box-shadow:0 0 0 0 rgba(224,163,62,0)}}
+
+  /* TBD banner */
+  .tbd-banner{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center;background:var(--ink);
+    color:#D9E0EC;border-radius:var(--radius-lg);padding:40px 42px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+  .tbd-banner::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;
+    background:radial-gradient(circle,rgba(224,163,62,.16),transparent 70%);pointer-events:none}
+  .tbd-banner .tbd-big{font-family:var(--disp);font-weight:700;font-size:clamp(2.8rem,7vw,4.4rem);letter-spacing:-.03em;
+    color:var(--gold);line-height:.9;display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+  .tbd-banner .tbd-big .dotp{width:13px;height:13px;border-radius:50%;background:var(--gold);
+    box-shadow:0 0 0 0 rgba(224,163,62,.6);animation:ping 2s infinite;flex:none}
+  .tbd-banner .tbd-txt{position:relative;z-index:1}
+  .tbd-banner h3{color:#F2F5FA;font-size:1.36rem;margin:0 0 9px}
+  .tbd-banner p{color:#AEB9CB;font-size:.99rem;margin:0;max-width:54ch}
+  .tbd-banner.lite{background:var(--paper-2);border:1px dashed var(--line);box-shadow:var(--shadow)}
+  .tbd-banner.lite::after{background:radial-gradient(circle,rgba(224,163,62,.10),transparent 70%)}
+  .tbd-banner.lite h3{color:var(--graphite)}
+  .tbd-banner.lite p{color:var(--muted)}
+  @media(max-width:680px){.tbd-banner{grid-template-columns:1fr;gap:18px;padding:30px 26px}}
+
+  /* ---------- COMMITTEE ---------- */
+  .people{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  /* simplified chair list */
+  .chairs{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+  .chairs li{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 4px;border-bottom:1px solid var(--line-soft)}
+  .chairs li>a{font-family:var(--disp);font-weight:600;font-size:1.12rem;color:var(--graphite);border-bottom:1px solid var(--gold-soft);transition:color .2s,border-color .2s}
+  .chairs li>a:hover{color:var(--gold-deep);border-bottom-color:var(--gold-deep)}
+  .chairs li .aff{color:var(--muted);font-size:.95rem}
+  .person{display:grid;grid-template-columns:auto 1fr;gap:18px;background:var(--paper-2);border:1px solid var(--line);
+    border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+  .person:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .avatar{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;background:var(--ink);
+    color:var(--gold);font-family:var(--disp);font-weight:600;font-size:1.18rem;flex:none}
+  .person h3{font-size:1.12rem}
+  .person .role{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;color:var(--gold-deep);text-transform:uppercase;margin:4px 0 0}
+  .person .aff{color:var(--muted);font-size:.9rem;margin:3px 0 0}
+  .person .bio{color:var(--muted);font-size:.92rem;margin:11px 0 0;line-height:1.55}
+  .person.lead-org{border-color:var(--gold);background:linear-gradient(180deg,#fffdf8,#fff)}
+  .person .links{margin-top:11px;display:flex;gap:14px}
+  .person .links a{font-family:var(--mono);font-size:.72rem;color:var(--gold-deep);border-bottom:1px solid #e6cf9e}
+  .person .links a:hover{border-bottom-color:var(--gold-deep)}
+
+  .pc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .pc{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;transition:border-color .2s,transform .2s}
+  .pc:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .pc .nm{font-family:var(--disp);font-weight:500;font-size:1rem;color:var(--graphite)}
+  .pc .af{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-top:3px}
+
+  /* partners */
+  .partners{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .partner{display:flex;align-items:center;gap:11px;font-family:var(--mono);font-size:.82rem;color:var(--muted);
+    border:1px solid var(--line);background:var(--paper-2);border-radius:999px;padding:10px 18px}
+  .partner b{color:var(--graphite);font-weight:500}
+
+  /* ---------- FOOTER ---------- */
+  .footer{background:var(--ink);color:#9AA5B8;padding:66px 0 34px;margin-top:0;border-top:1px solid #1b2740}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;align-items:start}
+  .footer .brand b{color:#EAEEF5}
+  .footer-blurb{margin-top:16px;font-size:.93rem;color:#8A95A9;max-width:42ch}
+  .footer h4{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#6E7A8E;font-weight:500;margin-bottom:14px}
+  .footer a.fl{display:block;color:#AEB9CB;font-size:.92rem;padding:5px 0;transition:color .2s}
+  .footer a.fl:hover{color:var(--gold)}
+  .footer-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;margin-top:46px;padding-top:24px;border-top:1px solid #1b2740;font-family:var(--mono);font-size:.74rem;color:#677387}
+  .footer-bottom a{color:#8A95A9}.footer-bottom a:hover{color:var(--gold)}
+
+  /* scroll reveal — only hide when JS is active (progressive enhancement) */
+  html.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  html.js .reveal.in{opacity:1;transform:none}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:900px){
+    .home-grid{grid-template-columns:1fr}
+    .twocol{grid-template-columns:1fr}
+    .grid-3{grid-template-columns:1fr}
+    .people{grid-template-columns:1fr}
+    .pc-grid{grid-template-columns:repeat(2,1fr)}
+    .dates-strip{grid-template-columns:repeat(2,1fr)}
+    .footer-grid{grid-template-columns:1fr;gap:30px}
+  }
+  @media(max-width:680px){
+    body{font-size:16px}
+    .navlinks,.nav-cta{display:none}
+    .navlinks.open{display:flex;position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;
+      background:var(--ink);border-bottom:1px solid #1b2740;padding:8px 16px 16px}
+    .navlinks.open a{width:100%;border-radius:8px}
+    .nav-cta.open{display:block;margin:6px 16px 0}
+    .burger{display:block}
+    .section{padding:60px 0}
+    .slot{grid-template-columns:1fr;gap:6px}
+    .person{grid-template-columns:1fr}
+    .avatar{width:48px;height:48px}
+    .pc-grid{grid-template-columns:1fr}
+    .hero-inner{padding:80px 22px 72px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#home" data-tab="home" aria-label="ChainSEC home">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="#15213650"/>
+        <g fill="none" stroke="#E7EAF0" stroke-width="2.3">
+          <rect x="5.5" y="11" width="13.5" height="10" rx="5"/>
+        </g>
+        <g fill="none" stroke="#E0A33E" stroke-width="2.3">
+          <rect x="13" y="11" width="13.5" height="10" rx="5"/>
+        </g>
+        <circle cx="16" cy="16" r="2" fill="#E0A33E"/>
+      </svg>
+      <b>Chain<i>SEC</i></b>
+    </a>
+    <nav class="navlinks" id="navlinks">
+      <a href="#home" data-tab="home" class="active">Home</a>
+      <a href="#cfp" data-tab="cfp">Call for Submissions</a>
+      <a href="#program" data-tab="program">Program</a>
+      <a href="#committee" data-tab="committee">Committee</a>
+    </nav>
+    <a class="nav-cta" id="navcta" href="#cfp" data-tab="cfp">Submit →</a>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HOME ============ -->
+<section class="panel active" id="home">
+
+  <!-- HERO -->
+  <div class="hero on-dark">
+    <canvas id="graph" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <svg class="heromark" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#EEF2F8"/><stop offset="1" stop-color="#C4CEDD"/>
+          </linearGradient>
+        </defs>
+        <g fill="none" stroke-width="7" stroke-linecap="round">
+          <rect x="20" y="44" width="50" height="34" rx="17" stroke="url(#lg)"/>
+          <rect x="50" y="44" width="50" height="34" rx="17" stroke="#E0A33E"/>
+        </g>
+        <circle cx="60" cy="61" r="6.5" fill="#E0A33E"/>
+        <circle cx="60" cy="61" r="13" fill="none" stroke="#E0A33E" stroke-width="2" opacity=".4"/>
+      </svg>
+      <h1 class="wordmark">Chain<i>SEC</i></h1>
+      <p class="hero-title">The 1st Workshop on Software Supply Chain Security</p>
+      <div class="hero-meta">
+        <span><span class="dot"></span>25–27 April 2027</span>
+        <span><span class="dot"></span>Co-located with ICSE 2027</span>
+        <span><span class="dot"></span>Dublin, Ireland</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="#cfp" data-tab="cfp">Read the Call for Submissions</a>
+        <a class="btn btn-ghost" href="#program" data-tab="program">See the program</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT + NEWS -->
+  <div class="section">
+    <div class="wrap">
+      <div class="home-grid">
+
+        <!-- ABOUT BOX -->
+        <div class="box reveal">
+          <div class="box-head"><span class="eyebrow">About the workshop</span></div>
+          <div class="box-body">
+            <p class="lead">The software supply chain — packages, libraries, build tools, container images, infrastructure code, and the people who maintain them — has become both the backbone of modern software and one of its most exposed attack surfaces.</p>
+            <p>Incidents like Log4Shell, the xz-utils backdoor, and the CrowdStrike outage showed how a single link can compromise millions of users or cause billions in losses, and supply-chain attacks have grown almost exponentially since 2019. <b>ChainSEC</b> brings researchers and practitioners together at ICSE around provenance and SBOMs, integrity and reproducibility, auditing and dependency management, regulatory compliance, human factors, and the supply chain of AI-based systems.</p>
+            <p>It is a deliberately <b>discussion-oriented, non-archival venue</b> — keynotes, contributed talks, and posters with no formal proceedings — so that work in progress, controversial positions, and lessons learned can be shared without dual-submission concerns.</p>
+          </div>
+        </div>
+
+        <!-- NEWS BOX -->
+        <div class="box reveal">
+          <div class="box-head">
+            <span class="eyebrow">News</span>
+            <span class="mono" style="font-size:.66rem;color:var(--muted-2);letter-spacing:.1em">LATEST</span>
+          </div>
+          <div class="news">
+            <!-- EDIT NEWS ITEMS HERE -->
+            <div class="news-item">
+              <div class="news-date">Jun 2026 · CFS</div>
+              <p>The <a class="inline" href="#cfp" data-tab="cfp">Call for Submissions</a> is now online. Talk, poster, and lightning-talk proposals are welcome.</p>
+            </div>
+            <div class="news-item">
+              <div class="news-date">Jun 2026 · Venue</div>
+              <p>ChainSEC will be co-located with <b>ICSE 2027</b> in Dublin, Ireland.</p>
+            </div>
+            <div class="news-item">
+              <div class="news-date">Coming soon</div>
+              <p>Keynote speakers and the panel topic will be announced here.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPICS PREVIEW -->
+  <div class="section-tight alt">
+    <div class="wrap">
+      <div class="section-head reveal" style="margin-bottom:24px">
+        <span class="eyebrow">Topics</span>
+        <h2>What we talk about</h2>
+      </div>
+      <div class="chips reveal">
+        <span class="chip">Provenance &amp; SBOMs</span>
+        <span class="chip">SLSA / in-toto attestation</span>
+        <span class="chip">Reproducible builds</span>
+        <span class="chip">sigstore &amp; software identity</span>
+        <span class="chip">Dependency confusion</span>
+        <span class="chip">Typosquatting</span>
+        <span class="chip">Malicious packages</span>
+        <span class="chip">Runtime enforcement</span>
+        <span class="chip">Software composition analysis</span>
+        <span class="chip">Debloating &amp; program repair</span>
+        <span class="chip">SBOM corpora &amp; benchmarks</span>
+        <span class="chip">Hardware-assisted integrity</span>
+        <span class="chip">EU CRA / EO 14028</span>
+        <span class="chip">Maintainer burnout &amp; trust</span>
+        <span class="chip">Supply chain of AI systems</span>
+        <span class="chip">Model &amp; dataset hubs</span>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- ============ CALL FOR PAPERS ============ -->
+<section class="panel" id="cfp">
+  <div class="hero on-dark" style="min-height:auto">
+    <canvas id="graph2" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.5"></canvas>
+    <div class="hero-inner" style="padding:80px 28px 64px;max-width:760px">
+      <span class="eyebrow" style="justify-content:center">ChainSEC 2027</span>
+      <h1 class="wordmark" style="font-size:clamp(2.2rem,6vw,3.6rem);margin-top:18px">Call for Submissions</h1>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="#" onclick="return false">Submit via HotCRP →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="wrap">
+      <div class="cfp-doc">
+
+        <!-- SCOPE -->
+        <div class="cfp-block">
+          <div class="section-head">
+            <h2>Scope</h2>
+          </div>
+          <p>The <i>Workshop on Software Supply Chain Security</i> (ChainSEC) is a new, discussion-oriented venue at ICSE 2027 dedicated to research and practice on the security, integrity, and provenance of the software supply chain. Software is built by assembling artifacts from a vast and opaque chain, including packages, libraries, build tools, container images, and infrastructure code. Recent incidents (Log4Shell, xz-utils, CrowdStrike) have shown how fragile this chain can be. ChainSEC welcomes both software-engineering and security perspectives, theoretical and empirical work, and contributions from academia and industry.</p>
+          <p class="cfp-meta"><b>Co-located with</b> ICSE 2027, Dublin, Ireland · <b>Workshop:</b> 25–27 April 2027 (TBA)</p>
+        </div>
+
+        <!-- TOPICS OF INTEREST -->
+        <div class="cfp-block">
+          <div class="section-head">
+            <h2>Topics of Interest</h2>
+            <p>Non-exhaustive:</p>
+          </div>
+          <ul class="cfp-topics">
+            <li>Software provenance, SBOMs, and SLSA/in-toto-style attestation</li>
+            <li>Software integrity, reproducible builds, and trusted-build infrastructure</li>
+            <li>Code signing, sigstore, and software identity</li>
+            <li>Supply-chain attack vectors and exemplars (xz-utils-style backdoors, dependency confusion, typosquatting, account takeover)</li>
+            <li>Developer identity, authentication, and maintainer-account compromise</li>
+            <li>Supply-chain auditing, observability, runtime enforcement, and policy declaration for control planes</li>
+            <li>Third-party dependency management; vulnerability discovery, prioritization, remediation, and computer-aided patching</li>
+            <li>Tools and techniques: static analysis, software composition analysis, capability enforcement, debloating, program repair</li>
+            <li>Datasets and benchmarking for supply-chain research (SBOM corpora, malware datasets, datasets for ML models)</li>
+            <li>Hardware-assisted software supply chain integrity and hardware–software interfacing</li>
+            <li>Privacy-enhancing technologies in the supply chain</li>
+            <li>Container and infrastructure security in the supply chain</li>
+            <li>Human and social factors: maintainer burnout, social engineering, open-source sustainability, trust</li>
+            <li>Security economics, incentives, and empirical studies of best-practice adoption</li>
+            <li>Software engineering education for supply-chain security</li>
+            <li>Regulatory frameworks (EU CRA, US EO 14028), standards (NIST SSDF, CycloneDX, SPDX), and compliance</li>
+            <li>Incident response and forensics for supply-chain attacks</li>
+            <li>Supply-chain security across application domains (healthcare, finance, automotive, critical infrastructure)</li>
+            <li>The supply chain of AI-based systems: provenance of model weights and training data; integrity across training, fine-tuning, and deployment; emerging concerns around model and dataset hubs</li>
+          </ul>
+        </div>
+
+        <!-- SUBMISSION TRACKS -->
+        <div class="cfp-block">
+          <div class="section-head">
+            <h2>Submission Tracks</h2>
+            <p>All submissions use the IEEEtran 10pt conference format and are <i>non-archival</i> (no formal proceedings).</p>
+          </div>
+          <ul class="cfp-list">
+            <li><h4>Talk proposals <span class="cfp-pages">up to 2 pages</span></h4><p>Extended abstracts for position, early-stage, vision, or lessons-learned contributions. Primary track.</p></li>
+            <li><h4>Poster proposals <span class="cfp-pages">1 page</span></h4><p>Late-breaking results, PhD-in-progress, tool demos. Submit a 1-page extended abstract in IEEEtran format; accepted authors present a physical poster at the workshop.</p></li>
+            <li><h4>Lightning-talk proposals <span class="cfp-pages">1 page</span></h4><p>Provocative ideas for 5-minute presentations.</p></li>
+          </ul>
+          <p class="cfp-after">Submissions are made through HotCRP. Each submission is reviewed by at least two PC members on fit, discussion potential, and clarity. Accepted contributions will be presented at the workshop; <i>no formal proceedings are published</i>, so authors retain full rights to submit elaborated versions to other venues.</p>
+        </div>
+
+        <!-- SUBMISSION POLICIES -->
+        <div class="cfp-block">
+          <div class="section-head">
+            <h2>Submission Policies</h2>
+          </div>
+          <ul class="policy">
+            <li><h4>Review model</h4><p>Submissions are reviewed single-blind; author identities are visible to PC members.</p></li>
+            <li><h4>Concurrent submissions</h4><p>ChainSEC is non-archival and explicitly welcomes work that is concurrently under submission to, or in preparation for, ICSE, FSE, ASE, S&amp;P, CCS, USENIX Security, NDSS, and other major venues. Authors retain full rights to their work.</p></li>
+            <li><h4>Conflicts of interest</h4><p>Standard COI rules apply: shared institution, advisor/advisee relationship, recent (&lt;2 years) co-authorship, funding relationship, or close personal relationship. Authors will declare PC conflicts at submission.</p></li>
+            <li><h4>Responsible vulnerability disclosure</h4><p>Submissions that describe new vulnerabilities or attacks must have notified the affected vendors or maintainers before submission, and must include a statement to that effect.</p></li>
+            <li><h4>Human subjects and ethics</h4><p>Empirical studies involving developers, or analysis of personally identifiable data, must report IRB / ethics-board approval (or equivalent) and discuss ethical considerations.</p></li>
+          </ul>
+        </div>
+
+        <!-- IMPORTANT DATES -->
+        <div class="cfp-block">
+          <div class="section-head">
+            <h2>Important Dates</h2>
+          </div>
+          <ul class="cfp-dates">
+            <li><span>Submission deadline</span><b class="mono">27 November 2026</b></li>
+            <li><span>Notification</span><b class="mono">11 December 2026</b></li>
+            <li><span>Workshop date</span><b class="mono">25–27 April 2027 (TBA)</b></li>
+          </ul>
+          <p class="cfp-after">All deadlines are 23:59 Anywhere on Earth (AoE, UTC-12).</p>
+        </div>
+
+        <!-- ORGANIZERS -->
+        <div class="cfp-block">
+          <div class="section-head">
+            <h2>Organizers</h2>
+          </div>
+          <p>Carmine Cesarano (KTH Royal Institute of Technology, main contact), Lorenzo De Carli (University of Calgary), Sigrid Eldh (Ericsson), Henrik Plate (Endor Labs), Laurie Williams (NC State University).</p>
+          <p class="cfp-meta"><b>Contact:</b> <a href="mailto:cesarano@kth.se">cesarano@kth.se</a></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAM ============ -->
+<section class="panel" id="program">
+  <div class="section" style="padding-top:64px">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow"></span>
+        <h2>Program</h2>
+        <p>TBD.</p>
+      </div>
+
+
+      <!-- HIDDEN: "How the day runs" tentative agenda — kept in source, not rendered
+      <div class="section-head reveal" style="margin:50px 0 24px">
+        <span class="eyebrow">Tentative · shape of the day</span>
+        <h2>How the day runs</h2>
+      </div>
+
+      <div class="agenda reveal">
+        <div class="slot keynote">
+          <div class="when">Morning</div>
+          <div class="what"><span class="kind">Keynote · 40–45 min</span><h3>Opening keynote — academic perspective</h3><p>A senior academic frames the day's research questions across provenance, integrity, and the maturing supply-chain agenda. Speaker to be announced.</p></div>
+        </div>
+        <div class="slot">
+          <div class="when">Late morning</div>
+          <div class="what"><span class="kind">Contributed talks · 15–20 min each</span><h3>Research &amp; position talks</h3><p>Selected from the open call — early-stage research, empirical observations, vision pieces, and lessons learned.</p></div>
+        </div>
+        <div class="slot">
+          <div class="when">Midday</div>
+          <div class="what"><span class="kind">Extended coffee break</span><h3>Poster session &amp; demos</h3><p>One-on-one discussion of work-in-progress and hands-on tool demonstrations, with space for ~15 posters.</p></div>
+        </div>
+        <div class="slot">
+          <div class="when">Early afternoon</div>
+          <div class="what"><span class="kind">Lightning round · 5 min each</span><h3>Lightning talks</h3><p>A rapid-fire session for provocative ideas and early hunches.</p></div>
+        </div>
+        <div class="slot keynote">
+          <div class="when">Afternoon</div>
+          <div class="what"><span class="kind">Keynote · 40–45 min</span><h3>Industry keynote</h3><p>An industry leader bridges research and practice from the front lines of the supply chain. Speaker to be announced.</p></div>
+        </div>
+        <div class="slot">
+          <div class="when">Late afternoon</div>
+          <div class="what"><span class="kind">Panel · 60 min</span><h3>Panel discussion</h3><p>Industry and academic panelists tackle a current, controversial topic — e.g. sustainable open-source maintenance, mandatory SBOM regulation, or emerging attack vectors.</p></div>
+        </div>
+        <div class="slot">
+          <div class="when">Closing</div>
+          <div class="what"><span class="kind">Open floor</span><h3>Open discussion &amp; next steps</h3><p>Surfacing open problems and seeding concrete collaborations across academia and industry.</p></div>
+        </div>
+      </div>
+      -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMMITTEE ============ -->
+<section class="panel" id="committee">
+  <div class="section" style="padding-top:64px">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow"></span>
+        <h2>Workshop chairs</h2>
+      </div>
+
+      <ul class="chairs reveal">
+        <li>
+          <a href="https://scholar.google.com/citations?user=ysuXuCMAAAAJ" target="_blank" rel="noopener">Carmine Cesarano</a>
+          <span class="aff">KTH Royal Institute of Technology, Sweden · main contact</span>
+        </li>
+        <li>
+          <a href="https://scholar.google.com/citations?user=lFnZ7RkAAAAJ" target="_blank" rel="noopener">Lorenzo De Carli</a>
+          <span class="aff">University of Calgary, Canada</span>
+        </li>
+        <li>
+          <a href="https://scholar.google.com/citations?user=b84CEmkAAAAJ" target="_blank" rel="noopener">Sigrid Eldh</a>
+          <span class="aff">Ericsson AB, Stockholm, Sweden</span>
+        </li>
+        <li>
+          <a href="https://scholar.google.com/citations?user=Kaleo5YAAAAJ" target="_blank" rel="noopener">Henrik Plate</a>
+          <span class="aff">Endor Labs, France</span>
+        </li>
+        <li>
+          <a href="https://scholar.google.com/citations?user=Cln2viUAAAAJ" target="_blank" rel="noopener">Laurie Williams</a>
+          <span class="aff">North Carolina State University, USA</span>
+        </li>
+      </ul>
+
+      <div class="chaindiv" style="margin:56px 0"></div>
+
+      <div class="section-head reveal" style="margin-bottom:26px">
+        <span class="eyebrow"></span>
+        <h2>Program committee</h2>
+        <p>TBD.</p>
+      </div>
+      
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="#home" data-tab="home" style="color:#EAEEF5">
+          <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+            <rect width="32" height="32" rx="8" fill="#15213650"/>
+            <g fill="none" stroke="#E7EAF0" stroke-width="2.3"><rect x="5.5" y="11" width="13.5" height="10" rx="5"/></g>
+            <g fill="none" stroke="#E0A33E" stroke-width="2.3"><rect x="13" y="11" width="13.5" height="10" rx="5"/></g>
+            <circle cx="16" cy="16" r="2" fill="#E0A33E"/>
+          </svg>
+          <b style="color:#EAEEF5">Chain<i style="color:var(--gold)">SEC</i></b>
+        </a>
+        <p class="footer-blurb">The 1st Workshop on Software Supply Chain Security - co-located with ICSE 2027, Dublin, Ireland.</p>
+      </div>
+      <div>
+        <h4>Workshop</h4>
+        <a class="fl" href="#home" data-tab="home">Home</a>
+        <a class="fl" href="#cfp" data-tab="cfp">Call for Submissions</a>
+        <a class="fl" href="#program" data-tab="program">Program</a>
+        <a class="fl" href="#committee" data-tab="committee">Committee</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2027 ChainSEC · Co-located with ICSE 2027, Dublin, Ireland</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- TABS + HASH ROUTING ---------- */
+(function(){
+  var panels = document.querySelectorAll('.panel');
+  var links  = document.querySelectorAll('.navlinks a');
+
+  /* ---------- SCROLL REVEAL ---------- */
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+  }, {threshold:.12}) : null;
+  function runReveal(){
+    var els = document.querySelectorAll('.panel.active .reveal:not(.in)');
+    if(!io){ els.forEach(function(el){el.classList.add('in');}); return; }
+    els.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---------- MOBILE MENU ---------- */
+  var burger=document.getElementById('burger'),
+      nav=document.getElementById('navlinks'),
+      cta=document.getElementById('navcta');
+  function closeMenu(){ nav.classList.remove('open'); cta.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+  burger.addEventListener('click', function(){
+    var open=nav.classList.toggle('open'); cta.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open?'true':'false');
+  });
+
+  /* ---------- TABS + HASH ROUTING ---------- */
+  function show(tab, push){
+    if(!document.getElementById(tab)) tab='home';
+    panels.forEach(function(p){p.classList.toggle('active', p.id===tab);});
+    links.forEach(function(a){a.classList.toggle('active', a.dataset.tab===tab);});
+    if(push!==false && location.hash.slice(1)!==tab){ history.pushState(null,'','#'+tab); }
+    window.scrollTo({top:0, behavior: push===false ? 'auto':'smooth'});
+    runReveal();
+    closeMenu();
+    requestAnimationFrame(function(){ window.dispatchEvent(new Event('resize')); });
+  }
+  document.body.addEventListener('click', function(e){
+    var t = e.target.closest('[data-tab]');
+    if(!t) return;
+    e.preventDefault();
+    show(t.dataset.tab);
+  });
+  window.addEventListener('popstate', function(){ show(location.hash.slice(1)||'home', false); });
+
+  show(location.hash.slice(1)||'home', false);
+  runReveal();
+})();
+
+/* ---------- HERO DEPENDENCY-GRAPH ANIMATION ---------- */
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function build(canvasId){
+    var canvas = document.getElementById(canvasId);
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d'), w,h,dpr, nodes=[], edges=[], pulses=[], raf;
+    var GOLD='224,163,62', EDGE='110,128,158', NODE='150,166,196';
+
+    function size(){
+      dpr = Math.min(window.devicePixelRatio||1, 2);
+      var r = canvas.getBoundingClientRect();
+      w = r.width; h = r.height || 520;
+      canvas.width = w*dpr; canvas.height = h*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      seed();
+    }
+    function seed(){
+      nodes=[]; edges=[]; pulses=[];
+      var count = Math.max(26, Math.min(56, Math.round(w*h/14000)));
+      for(var i=0;i<count;i++){
+        nodes.push({
+          x: Math.random()*w, y: Math.random()*h,
+          bx: Math.random()*w, by: Math.random()*h,
+          r: Math.random()*1.7+1.3,
+          ph: Math.random()*Math.PI*2,
+          sp: Math.random()*0.4+0.18,
+          anchor: Math.random()<0.10
+        });
+      }
+      // connect each node to a few nearest neighbours
+      for(var a=0;a<nodes.length;a++){
+        var d=[];
+        for(var b=0;b<nodes.length;b++){ if(a===b)continue;
+          var dx=nodes[a].bx-nodes[b].bx, dy=nodes[a].by-nodes[b].by;
+          d.push({b:b, dist:dx*dx+dy*dy});
+        }
+        d.sort(function(p,q){return p.dist-q.dist;});
+        var k = 2 + (Math.random()<0.4?1:0);
+        for(var j=0;j<k && j<d.length;j++){
+          var bb=d[j].b;
+          if(!edges.some(function(e){return (e.a===a&&e.b===bb)||(e.a===bb&&e.b===a);}))
+            edges.push({a:a, b:bb});
+        }
+      }
+    }
+    function spawnPulse(){
+      if(!edges.length) return;
+      var e = edges[(Math.random()*edges.length)|0];
+      pulses.push({e:e, t:0, sp:0.006+Math.random()*0.006, hops: 1+((Math.random()*3)|0)});
+    }
+    var t0=performance.now();
+    function frame(now){
+      var dt=(now-t0)/1000; 
+      ctx.clearRect(0,0,w,h);
+
+      // drift
+      for(var i=0;i<nodes.length;i++){
+        var n=nodes[i];
+        n.x = n.bx + Math.sin(now*0.00018*n.sp + n.ph)*16;
+        n.y = n.by + Math.cos(now*0.00016*n.sp + n.ph)*16;
+      }
+      // edges
+      ctx.lineWidth=1;
+      for(var k=0;k<edges.length;k++){
+        var A=nodes[edges[k].a], B=nodes[edges[k].b];
+        ctx.strokeStyle='rgba('+EDGE+',0.16)';
+        ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.stroke();
+      }
+      // pulses travel along edges, jumping to a connected edge at the end (chain propagation)
+      for(var p=pulses.length-1;p>=0;p--){
+        var pu=pulses[p]; pu.t += pu.sp;
+        var A2=nodes[pu.e.a], B2=nodes[pu.e.b];
+        var x=A2.x+(B2.x-A2.x)*pu.t, y=A2.y+(B2.y-A2.y)*pu.t;
+        var g=ctx.createRadialGradient(x,y,0,x,y,14);
+        g.addColorStop(0,'rgba('+GOLD+',0.9)'); g.addColorStop(1,'rgba('+GOLD+',0)');
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,14,0,6.283); ctx.fill();
+        ctx.fillStyle='rgba('+GOLD+',1)'; ctx.beginPath(); ctx.arc(x,y,2.2,0,6.283); ctx.fill();
+        // light up the travelled edge
+        ctx.strokeStyle='rgba('+GOLD+',0.28)'; ctx.lineWidth=1.4;
+        ctx.beginPath(); ctx.moveTo(A2.x,A2.y); ctx.lineTo(x,y); ctx.stroke();
+        if(pu.t>=1){
+          pu.hops--;
+          if(pu.hops<=0){ pulses.splice(p,1); continue; }
+          // jump to a connected edge from node b
+          var from = pu.e.b;
+          var cand = edges.filter(function(e){return (e.a===from||e.b===from);});
+          if(!cand.length){ pulses.splice(p,1); continue; }
+          var ne = cand[(Math.random()*cand.length)|0];
+          if(ne.b===from){ ne={a:ne.b,b:ne.a}; }
+          pu.e=ne; pu.t=0;
+        }
+      }
+      // nodes
+      for(var m=0;m<nodes.length;m++){
+        var nd=nodes[m];
+        if(nd.anchor){
+          var ga=ctx.createRadialGradient(nd.x,nd.y,0,nd.x,nd.y,9);
+          ga.addColorStop(0,'rgba('+GOLD+',0.55)'); ga.addColorStop(1,'rgba('+GOLD+',0)');
+          ctx.fillStyle=ga; ctx.beginPath(); ctx.arc(nd.x,nd.y,9,0,6.283); ctx.fill();
+          ctx.fillStyle='rgba('+GOLD+',0.95)';
+        } else {
+          ctx.fillStyle='rgba('+NODE+',0.55)';
+        }
+        ctx.beginPath(); ctx.arc(nd.x,nd.y,nd.r,0,6.283); ctx.fill();
+      }
+      raf=requestAnimationFrame(frame);
+    }
+    function still(){ // reduced-motion: one static frame
+      ctx.clearRect(0,0,w,h);
+      ctx.lineWidth=1;
+      for(var k=0;k<edges.length;k++){var A=nodes[edges[k].a],B=nodes[edges[k].b];
+        ctx.strokeStyle='rgba('+EDGE+',0.16)';ctx.beginPath();ctx.moveTo(A.bx,A.by);ctx.lineTo(B.bx,B.by);ctx.stroke();}
+      for(var m=0;m<nodes.length;m++){var nd=nodes[m];
+        ctx.fillStyle= nd.anchor?'rgba('+GOLD+',0.9)':'rgba('+NODE+',0.5)';
+        ctx.beginPath();ctx.arc(nd.bx,nd.by,nd.r,0,6.283);ctx.fill();}
+    }
+    size();
+    window.addEventListener('resize', function(){ size(); if(reduce) still(); });
+    if(reduce){ still(); }
+    else { raf=requestAnimationFrame(frame); setInterval(spawnPulse, 1100); spawnPulse(); }
+  }
+  build('graph');
+  build('graph2');
+})();
+</script>
+</body>
+</html>
